@@ -71,7 +71,7 @@ export default {
       newExpense: { name: '', amount: '', date: '' },
       expenses: JSON.parse(localStorage.getItem('expenses')) || [],
       errorMessage: '',
-      budgetLimit: JSON.parse(localStorage.getItem('budgetLimit')) || 150,
+      budgetLimit: JSON.parse(localStorage.getItem('budgetLimit')) || 500,
     };
   },
 
