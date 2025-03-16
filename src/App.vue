@@ -2,7 +2,6 @@
   <div class="app-container">
     <h1 class="title">Expense Tracker</h1>
 
-    <!-- Budget Input -->
     <div class="budget-container">
       <label>Set Daily Budget: </label>
       <input
@@ -13,7 +12,6 @@
       />
     </div>
 
-    <!-- Expense Input Section -->
     <div class="input-container">
       <input type="text" v-model="newExpense.name" placeholder="Expense Name" class="input-field" />
       <input
@@ -30,28 +28,30 @@
       <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
     </div>
 
-    <!-- Summary -->
     <div class="summary">
       <h3>Today's Expenses: ₹{{ totalSpentToday.toLocaleString('en-IN') }}</h3>
+      <div class="savings">
       <p v-if="remainingBalance > 0" class="balance positive">
-        Remaining Balance: +₹{{ remainingBalance.toLocaleString('en-IN') }}
+        Today's remaining balance: +₹{{ remainingBalance.toLocaleString('en-IN') }}
       </p>
       <p v-if="remainingBalance < 0" class="balance negative">
-        Deficit: -₹{{ Math.abs(remainingBalance).toLocaleString('en-IN') }}
+        Today's deficit: -₹{{ Math.abs(remainingBalance).toLocaleString('en-IN') }}
       </p>
 
       <h3 v-if="totalSavingsThisMonth >= 0" class="balance positive">
-        Total Savings This Month: ₹{{ totalSavingsThisMonth.toLocaleString('en-IN') }}
+        Total savings this month: ₹{{ totalSavingsThisMonth.toLocaleString('en-IN') }}
       </h3>
       <h3 v-else class="balance negative">
-        Over Budget This Month by ₹{{ Math.abs(totalSavingsThisMonth).toLocaleString('en-IN') }}
+        Over budget this month by ₹{{ Math.abs(totalSavingsThisMonth).toLocaleString('en-IN') }}
       </h3>
-
-      <h2>Total Spent This Month: ₹{{ totalSpentThisMonth.toLocaleString('en-IN') }}</h2>
-      <h1>Total Spent This Year: ₹{{ totalSpentThisYear.toLocaleString('en-IN') }}</h1>
+      </div>
+      <h2>Total spent this month: ₹{{ totalSpentThisMonth.toLocaleString('en-IN') }}</h2>
+      <h1 class="year-expense">Total Spent This Year: ₹{{ totalSpentThisYear.toLocaleString('en-IN') }}</h1>
     </div>
-
-    <!-- Expenses List -->
+    
+    <hr />
+    <h3>Expenses:</h3>
+    
     <ul class="expense-list">
       <li v-for="(expense, index) in sortedExpenses" :key="index" class="expense-item">
         <span>{{ expense.name }} - ₹{{ expense.amount.toLocaleString('en-IN') }} ({{ expense.date }})</span>
@@ -59,7 +59,6 @@
       </li>
     </ul>
 
-    <!-- Clear All Data Button -->
     <button @click="clearAllData" class="clear-btn">Clear All Data</button>
   </div>
 </template>
@@ -203,9 +202,13 @@ export default {
 
 <style scoped>
 .app-container {
-  width: 85%;
   margin: auto;
   text-align: center;
+  background: linear-gradient(to right, #ECE9E6, #FFFFFF);
+  min-height: 100vh;
+  padding: 5px;
+  padding-top: 1px;
+  border-radius: 5px;
 }
 .title {
   font-size: 24px;
@@ -241,12 +244,12 @@ export default {
 }
 
 .date-label {
-  flex: 0.5; /* Takes half width */
+  flex: 0.5;
   font-weight: bold;
 }
 
 .date-input {
-  flex: 1.5; /* Takes half width */
+  flex: 1.5;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -281,12 +284,15 @@ export default {
   border-radius: 5px;
 }
 .delete-btn {
-  background: red;
-  color: white;
+  background: rgb(246, 103, 103);
+  color: rgb(255, 255, 255);
   border: none;
   cursor: pointer;
   padding: 5px;
-  border-radius: 50%;
+  border-radius: 20%;
+}
+.delete-btn:hover {
+  background-color: rgb(203, 5, 5);
 }
 .summary {
   margin-top: 20px;
@@ -315,5 +321,15 @@ export default {
 }
 .clear-btn:hover {
   background-color: darkred;
+}
+.year-expense {
+  padding: 8px;
+  border-radius: 10px;
+  background-color: #ECE9E6;
+}
+.savings {
+  background-color: #f1ebeb;
+  border-radius: 10px;
+  padding: 1px;
 }
 </style>
