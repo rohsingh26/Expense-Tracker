@@ -202,6 +202,7 @@ export default {
 
 <style scoped>
 .app-container {
+  
   margin: auto;
   text-align: center;
   background: linear-gradient(to right, #ECE9E6, #FFFFFF);
