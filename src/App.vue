@@ -22,7 +22,10 @@
         placeholder="Amount"
         class="input-field"
       />
-      <input type="date" v-model="newExpense.date" class="input-field" />
+      <div class="date-container">
+        <p class="date-label">Date:</p>
+        <input type="date" v-model="newExpense.date" class="date-input" />
+      </div>
       <button @click="addExpense" class="add-btn">Add Expense</button>
       <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
     </div>
@@ -230,6 +233,25 @@ export default {
   border: 1px solid #ccc;
   border-radius: 5px;
 }
+.date-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.date-label {
+  flex: 0.5; /* Takes half width */
+  font-weight: bold;
+}
+
+.date-input {
+  flex: 1.5; /* Takes half width */
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
 .add-btn {
   background-color: #28a745;
   color: white;
