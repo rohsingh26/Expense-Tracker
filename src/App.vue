@@ -60,7 +60,7 @@
     <ul class="expense-list">
       <li v-for="(expense, index) in displayedExpenses" :key="index" class="expense-item">
         <span>{{ expense.name }} - ₹{{ expense.amount.toLocaleString('en-IN') }} ({{ expense.date }})</span>
-        <button @click="deleteExpense(index)" class="delete-btn">X</button>
+        <button @click="deleteExpense(index)" class="delete-btn">&#x2715;</button>
       </li>
     </ul>
 
