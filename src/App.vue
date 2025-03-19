@@ -31,33 +31,40 @@
     <div class="summary">
       <h3>Today's Expenses: ₹{{ totalSpentToday.toLocaleString('en-IN') }}</h3>
       <div class="savings">
-      <p v-if="remainingBalance > 0" class="balance positive">
-        Today's remaining balance: +₹{{ remainingBalance.toLocaleString('en-IN') }}
-      </p>
-      <p v-if="remainingBalance < 0" class="balance negative">
-        Today's deficit: -₹{{ Math.abs(remainingBalance).toLocaleString('en-IN') }}
-      </p>
+        <p v-if="remainingBalance > 0" class="balance positive">
+          Today's remaining balance: +₹{{ remainingBalance.toLocaleString('en-IN') }}
+        </p>
+        <p v-if="remainingBalance < 0" class="balance negative">
+          Today's deficit: -₹{{ Math.abs(remainingBalance).toLocaleString('en-IN') }}
+        </p>
 
-      <h3 v-if="totalSavingsThisMonth >= 0" class="balance positive">
-        Total savings this month: ₹{{ totalSavingsThisMonth.toLocaleString('en-IN') }}
-      </h3>
-      <h3 v-else class="balance negative">
-        Over budget this month by ₹{{ Math.abs(totalSavingsThisMonth).toLocaleString('en-IN') }}
-      </h3>
+        <h3 v-if="totalSavingsThisMonth >= 0" class="balance positive">
+          Total savings this month: ₹{{ totalSavingsThisMonth.toLocaleString('en-IN') }}
+        </h3>
+        <h3 v-else class="balance negative">
+          Over budget this month by ₹{{ Math.abs(totalSavingsThisMonth).toLocaleString('en-IN') }}
+        </h3>
       </div>
       <h2>Total spent this month: ₹{{ totalSpentThisMonth.toLocaleString('en-IN') }}</h2>
       <h1 class="year-expense">Total Spent This Year: ₹{{ totalSpentThisYear.toLocaleString('en-IN') }}</h1>
     </div>
-    
+
     <hr />
-    <h3>Expenses:</h3>
     
+    <h3>
+      <span @click="toggleExpenses" class="toggle-arrow">
+        {{ showAll ? 'Expenses: ▲' : 'Expenses: ▼' }}
+      </span>
+    </h3>
+
     <ul class="expense-list">
-      <li v-for="(expense, index) in sortedExpenses" :key="index" class="expense-item">
+      <li v-for="(expense, index) in displayedExpenses" :key="index" class="expense-item">
         <span>{{ expense.name }} - ₹{{ expense.amount.toLocaleString('en-IN') }} ({{ expense.date }})</span>
         <button @click="deleteExpense(index)" class="delete-btn">X</button>
       </li>
     </ul>
+
+    <div v-if="sortedExpenses.length > 2 && !showAll" class="dots" @click="toggleExpenses">...</div>
 
     <button @click="clearAllData" class="clear-btn">Clear All Data</button>
   </div>
@@ -71,6 +78,7 @@ export default {
       expenses: JSON.parse(localStorage.getItem('expenses')) || [],
       errorMessage: '',
       budgetLimit: JSON.parse(localStorage.getItem('budgetLimit')) || 500,
+      showAll: false
     };
   },
 
@@ -124,6 +132,10 @@ export default {
     sortedExpenses() {
       return [...this.expenses].sort((a, b) => new Date(b.date) - new Date(a.date));
     },
+
+    displayedExpenses() {
+      return this.showAll ? this.sortedExpenses : this.sortedExpenses.slice(0, 2);
+    }
   },
 
   methods: {
@@ -196,6 +208,10 @@ export default {
       const istDate = new Date(now.getTime() + istOffset);
       return { month: istDate.getMonth(), year: istDate.getFullYear() };
     },
-  },
+
+    toggleExpenses() {
+      this.showAll = !this.showAll;
+    }
+  }
 };
 </script>
