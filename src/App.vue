@@ -159,7 +159,7 @@ export default {
         return;
       }
 
-      this.expenses.push({
+      this.expenses.unshift({
         name: this.newExpense.name,
         amount: parseFloat(this.newExpense.amount),
         date: this.newExpense.date,
